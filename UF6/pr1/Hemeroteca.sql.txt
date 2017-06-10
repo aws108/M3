@@ -1,0 +1,117 @@
+-- phpMyAdmin SQL Dump
+-- version 3.5.1
+-- http://www.phpmyadmin.net
+--
+-- Servidor: localhost
+-- Tiempo de generación: 05-06-2013 a las 16:54:27
+-- Versión del servidor: 5.5.24-log
+-- Versión de PHP: 5.4.3
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Base de datos: `hemeroteca`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `document`
+--
+
+CREATE TABLE IF NOT EXISTS `document` (
+  `idDocument` int(11) NOT NULL AUTO_INCREMENT,
+  `isbn` varchar(9) DEFAULT NULL,
+  `publisher` int(11) DEFAULT NULL,
+  `publishing` date DEFAULT NULL,
+  `available` tinyint(1) DEFAULT NULL,
+  `autor` varchar(45) DEFAULT NULL,
+  `title` varchar(45) DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `volume` int(11) DEFAULT NULL,
+  `number` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idDocument`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 PACK_KEYS=0 AUTO_INCREMENT=8 ;
+
+--
+-- Volcado de datos para la tabla `document`
+--
+
+INSERT INTO `document` (`idDocument`, `isbn`, `publisher`, `publishing`, `available`, `autor`, `title`, `price`, `volume`, `number`) VALUES
+(1, '123456789', 1, '2013-05-01', 1, 'Yo mismo', 'Mi obra', NULL, 1, 2),
+(3, '123456', 1, '2013-02-15', 1, 'Yo', 'historias para no dormir', 14.5, NULL, NULL),
+(4, '123456', 1, '2010-05-15', 1, 'tu', 'no se', 14.9, NULL, NULL),
+(5, 'few4324', 4, '2013-02-15', 1, 'el otro', 'alguno', NULL, 4, 3),
+(6, '12131321', 1, '2013-12-12', 1, 'jjtmjt', 'u6776576', 25, NULL, NULL),
+(7, '123456', 1, '2013-11-11', 1, '85656', '5675765', NULL, 6, 7);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `prestec`
+--
+
+CREATE TABLE IF NOT EXISTS `prestec` (
+  `idPrestec` int(11) NOT NULL AUTO_INCREMENT,
+  `Document_idDocument` varchar(9) NOT NULL,
+  `Usuari_idUsuari` int(11) NOT NULL,
+  `date_start` date DEFAULT NULL,
+  `date_end` date DEFAULT NULL,
+  PRIMARY KEY (`idPrestec`,`Document_idDocument`),
+  KEY `Prestec_FKIndex1` (`Usuari_idUsuari`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 PACK_KEYS=0 AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `prestec`
+--
+
+INSERT INTO `prestec` (`idPrestec`, `Document_idDocument`, `Usuari_idUsuari`, `date_start`, `date_end`) VALUES
+(1, '123456789', 4, '2013-05-15', '2013-05-15'),
+(2, 'few4324', 4, '2013-05-15', '2013-06-05'),
+(3, '123456', 4, '2013-06-05', '2013-06-05');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuari`
+--
+
+CREATE TABLE IF NOT EXISTS `usuari` (
+  `idUsuari` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `nif` varchar(9) DEFAULT NULL,
+  `phone` varchar(9) DEFAULT NULL,
+  `address` varchar(45) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idUsuari`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 PACK_KEYS=0 AUTO_INCREMENT=7 ;
+
+--
+-- Volcado de datos para la tabla `usuari`
+--
+
+INSERT INTO `usuari` (`idUsuari`, `name`, `nif`, `phone`, `address`, `age`) VALUES
+(4, 'Hector', '12345678A', '987654321', 'La direccion de mi casa', 28),
+(5, 'yo', '123456J', '98765123', 'la mias', 13),
+(6, 'gsve', 'vsvfs', 'rwerwe', 'rrr3', 25);
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `prestec`
+--
+ALTER TABLE `prestec`
+  ADD CONSTRAINT `fk_{857AFC53-3BC9-456B-AE47-13F6E725A4C8}` FOREIGN KEY (`Usuari_idUsuari`) REFERENCES `usuari` (`idUsuari`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

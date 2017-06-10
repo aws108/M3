@@ -1,0 +1,52 @@
+
+CREATE DATABASE store;
+USE store;
+
+CREATE TABLE clientes(idClientes INTEGER(40),
+nombre VARCHAR(40),
+email VARCHAR(40),
+direccion VARCHAR(40),
+UNIQUE KEY(idClientes));
+
+CREATE TABLE paises(idPaises INTEGER(40),
+nombre VARCHAR(40),
+UNIQUE KEY(idPaises));
+
+CREATE TABLE productos(idProductos INTEGER(40),
+nombre VARCHAR(40),
+precio INTEGER(40),
+codigo INTEGER(80),
+idPaisProd INTEGER(40),
+UNIQUE KEY(idProductos),
+FOREIGN KEY (idProductos) References clientes(idClientes),
+FOREIGN KEY (idPaisProd) References paises(idPaises));
+
+INSERT INTO clientes values(1,'Client1','client1@ioc.cat','Adreça1');
+INSERT INTO clientes values(2,'Client2','client2@ioc.cat','Adreça2');
+INSERT INTO clientes values(3,'Client3','client3@ioc.cat','Adreça3');
+INSERT INTO clientes values(4,'Client4','client4@ioc.cat','Adreça4');
+
+INSERT INTO paises values(840,'Spain');
+INSERT INTO paises values(850,'Cuba');
+INSERT INTO paises values(300,'Francia');
+INSERT INTO paises values(729,'Morocco');
+
+INSERT INTO productos values(1,'Arros',2,84012,840);
+INSERT INTO productos values(2,'Tabac',100,85023,850);
+INSERT INTO productos values(3,'Formatge',50,30056,300);
+INSERT INTO productos values(4,'Taronges',15,72949,729);
+
+CREATE TABLE encargo (
+    IdEncargo INTEGER NOT NULL AUTO_INCREMENT,
+    data DATE,
+    idClienEncargo INTEGER REFERENCES clientes(idClientes),
+    PRIMARY KEY (IdEncargo)
+);
+
+CREATE TABLE liniaEncargo
+(
+	IdLinEncargo INTEGER REFERENCES encargo(IdEncargo),
+	IdLinEncarProd INTEGER REFERENCES productos(idProductos),
+	cantidad INTEGER NOT NULL, CHECK (cantidad > 0),
+	PRIMARY KEY (IdLinEncargo, IdLinEncarProd)
+);
